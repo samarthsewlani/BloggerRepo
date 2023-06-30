@@ -1,0 +1,15 @@
+
+<h1> Blog List </h1>
+
+{% for blog in blogs %}
+<h2>{{ blog.title }}</h2>
+
+<p>
+    {{ blog.body|safe }}
+</p>
+
+<h6>
+    {{ blog.date_posted }}
+</h6>
+
+{% endfor %}

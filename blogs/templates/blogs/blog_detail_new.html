@@ -1,0 +1,50 @@
+{% extends 'blogs/base.html' %}
+{% load static %}
+
+{% block content %}
+
+
+<section class="single-block-wrapper section-padding">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
+                <div class="single-post">
+                    <div class="post-header mb-5 text-center">
+                        <div class="meta-cat">
+                            <a class="post-category font-extra text-color text-uppercase font-sm letter-spacing-1"
+                                href="#">Energy </a>
+                        </div>
+                        <h2 class="post-title mt-2">
+                            {{ blog.title }}
+                        </h2>
+
+                        <div class="post-meta">
+                            <span class="text-uppercase font-sm letter-spacing-1 mr-3">by {{ blog.author }}</span>
+                            <span class="text-uppercase font-sm letter-spacing-1">{{ blog.date_posted }}</span>
+                        </div>
+                        
+                    </div>
+                    <div class="post-body">
+                        <div class="entry-content post-custom">
+                            
+                            {{ blog.body|safe }}
+                        </div>
+
+
+                    </div>
+                    {% if user.is_authenticated %}
+                    <div class="row justify-content-center">
+                        <a href="{% url 'update_blog' blog.id %}" class="btn btn-info d-block m-3" style="width: 30%;">Edit</a>
+                        <a href="{% url 'confirm_delete' blog.id %}" class="btn btn-danger d-block m-3" style="width: 30%;">Delete</a>
+                    </div>
+                    {% endif %}
+                </div>
+               
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+{% endblock %}

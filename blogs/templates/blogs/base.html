@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+{% load static %}
+<!--
+ // WEBSITE: https://themefisher.com
+ // TWITTER: https://twitter.com/themefisher
+ // FACEBOOK: https://www.facebook.com/themefisher
+ // GITHUB: https://github.com/themefisher/
+-->
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Revolve - Personal Magazine blog Template</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!--Favicon-->
+    <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon">
+
+    <!-- THEME CSS
+	================================================== -->
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="{% static 'plugins/bootstrap/css/bootstrap.min.css' %}">
+    <!-- Themify -->
+    <link rel="stylesheet" href="{% static 'plugins/themify/css/themify-icons.css' %}">
+    <link rel="stylesheet" href="{% static 'plugins/slick-carousel/slick-theme.css' %}">
+    <link rel="stylesheet" href="{% static 'plugins/slick-carousel/slick.css' %}">
+    <!-- Slick Carousel -->
+    <link rel="stylesheet" href="{% static 'plugins/owl-carousel/owl.carousel.min.css' %}">
+    <link rel="stylesheet" href="{% static 'plugins/owl-carousel/owl.theme.default.min.css' %}">
+    <link rel="stylesheet" href="{% static 'plugins/magnific-popup/magnific-popup.css' %}">
+    <!-- manin stylesheet -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+	<!-- Icon Font Stylesheet -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+    <header class="header-top bg-dark py-4">
+        <div class="container">
+            <nav class="navbar navbar-expand-lg navigation menu-white">
+                <a class="navbar-brand" href="{% url 'home' %}">
+                    <img src="{% static 'images/logo-w.png' %}" alt="" class="img-fluid">
+                </a>
+
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapse"
+                    aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="ti-menu  text-white"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbar-collapse">
+                    <ul class="menu navbar-nav ml-auto">
+                        
+						<li class="nav-item"><a href="{% url 'home' %}" class="nav-link">Home</a></li>
+                        <li class="nav-item"><a href="{% url 'category' %}" class="nav-link">Category</a></li>
+                        
+
+                        <li class="nav-item"><a href="{% url 'contact' %}" class="nav-link">Contact</a></li>
+						{% if user.is_authenticated %}
+						<li class="nav-item"><a href="{% url 'create_blog' %}" class="nav-link">New Blog</a></li>
+						<li class="nav-item"><a href="{% url 'logout' %}" class="nav-link">Log Out</a></li>
+						{% else %}
+						<li class="nav-item"><a href="{% url 'login' %}" class="nav-link">Log In</a></li>
+						{% endif %}
+					</ul>
+                    <div class="text-lg-right search ml-4">
+                        <div class="search_toggle"><i class="ti-search text-white"></i></div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!--search overlay start-->
+    <div class="search-wrap">
+        <div class="overlay">
+            <form action="#" class="search-form">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-10 col-9">
+                            <input type="text" class="form-control" placeholder="Search..." />
+                        </div>
+                        <div class="col-md-2 col-3 text-right">
+                            <div class="search_toggle toggle-wrap d-inline-block">
+                                <i class="ti-close"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!--search overlay end-->
+
+	{% block content %}
+    <section class="section-padding">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="row">
+						{% for blog in blogs %}
+						<div class="col-lg-4 col-md-6 col-sm-6">
+                            <article class="post-grid mb-5 ">
+                                <a class="post-thumb mb-4 d-block" href="{% url 'blog_detail_new' blog.id %}">
+									{% if blog.cover %}
+									<img src="{{ blog.cover.url }}" alt="" class="img-fluid w-100">
+									{% else %}
+                                    <img src="{% static 'images/news/news-1.jpg' %}" alt="" class="img-fluid w-100">
+									{% endif %}
+                                </a>
+
+                                <div class="post-content-grid">
+                                    <div class="label-date">
+                                        <span class="day">{{ blog.date_posted.day }}</span>
+                                        <span class="month text-uppercase">{{ blog.date_posted|date:'M' }}</span>
+                                    </div>
+                                    <span
+                                        class="cat-name text-color font-extra font-sm text-uppercase letter-spacing">Energy</span>
+                                    <h3 class="post-title mt-1"><a href="{% url 'blog_detail_new' blog.id %}">{{ blog.title }}</a></h3>
+                                    <p>{{ blog.body|striptags|safe|truncatewords:20 }}</p>
+                                </div>
+                            </article>
+                        </div>
+						{% endfor %}
+                        
+                    </div>
+                </div>
+
+				<!-- 
+                <div class="m-auto">
+                    <div class="pagination mt-5 pt-4">
+                        <ul class="list-inline">
+                            <li class="list-inline-item"><a href="#" class="active">1</a></li>
+                            <li class="list-inline-item"><a href="#">2</a></li>
+                            <li class="list-inline-item"><a href="#">3</a></li>
+                            <li class="list-inline-item"><a href="#" class="prev-posts"><i
+                                        class="ti-arrow-right"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+				-->
+            </div>
+        </div>
+    </section>
+	{% endblock %}
+
+
+    <!-- THEME JAVASCRIPT FILES
+================================================== -->
+    <!-- initialize jQuery Library -->
+    <script src="{% static 'plugins/jquery/jquery.js' %}"></script>
+    <!-- Bootstrap jQuery -->
+    <script src="{% static 'plugins/bootstrap/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'plugins/bootstrap/js/popper.min.js' %}"></script>
+    <!-- Owl caeousel -->
+    <script src="{% static 'plugins/owl-carousel/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'plugins/slick-carousel/slick.min.js' %}"></script>
+    <script src="{% static 'plugins/magnific-popup/magnific-popup.js' %}"></script>
+    <!-- Instagram Feed Js -->
+    <script src="{% static 'plugins/instafeed-js/instafeed.min.js' %}"></script>
+    <!-- Google Map -->
+    <script src="{% static 'https://maps.googleapis.com/maps/api/js?key=AIzaSyCC72vZw-6tGqFyRhhg5CkF2fqfILn2Tsw' %}"></script>
+    <script src="{% static 'plugins/google-map/gmap.js' %}"></script>
+    <!-- main js -->
+    <script src="{% static 'js/custom.js' %}"></script>
+
+	<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
+
+
+</body>
+
+</html>
